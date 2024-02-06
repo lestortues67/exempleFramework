@@ -1,0 +1,95 @@
+{
+  "name": "hydra.js",
+  "version": "3.11.0",
+  "description": "Framework that gives you the tools to write your application using modules or widgets and make easy to work with them.",
+  "homepage": "http://tcorral.github.com/Hydra.js/",
+  "author": "Tomas Corral",
+  "contributors": [
+    {
+      "name": "Ramon Ferrer",
+      "github": "https://github.com/Ramonacus"
+    },
+    {
+      "name": "Marc Mignonsin",
+      "github": "https://github.com/mawrkus"
+    },
+    {
+      "name": "Adrià Jimenez",
+      "github": "https://github.com/ajimix"
+    },
+    {
+      "name": "Carlos Villuendas",
+      "github": "https://github.com/carlosvillu"
+    },
+    {
+      "name": "Rafael Yepes",
+      "github": "https://github.com/rafayepes"
+    },
+    {
+      "name": "Greg Freeman",
+      "blog": "http://www.gregfreeman.org/"
+    }
+  ],
+  "main": "./src/Hydra.js",
+  "keywords": [
+    "hydra",
+    "modular",
+    "modules",
+    "scalable"
+  ],
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "http://www.opensource.org/licenses/mit-license.php"
+    }
+  ],
+  "bugs": {
+    "email": "amischol@gmail.com",
+    "url": "https://github.com/HydraJS/HydraJS/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/HydraJS/HydraJS.git"
+  },
+  "scripts": {
+    "test": "node node_modules/karma/bin/karma start config/karma.conf.js --single-run --browsers PhantomJS config"
+  },
+  "devDependencies": {
+    "async": "2.2.0",
+    "filesize": "^3.5.6",
+    "gulp": "^3.9.1",
+    "gulp-bump": "^3.2.0",
+    "gulp-data": "^1.2.1",
+    "gulp-gzip": "^1.4.0",
+    "gulp-jspm": "^0.5.13",
+    "gulp-rename": "^1.2.2",
+    "gulp-rev": "^7.1.2",
+    "gulp-swig": "^0.8.0",
+    "gulp-uglifyjs": "^0.6.2",
+    "hydrajs-testing-helper": "*",
+    "jasmine-core": "^2.5.2",
+    "karma": "1.5.0",
+    "karma-chrome-launcher": "2.0.0",
+    "karma-coffee-preprocessor": "1.0.1",
+    "karma-coverage": "1.1.1",
+    "karma-firefox-launcher": "1.0.1",
+    "karma-html2js-preprocessor": "1.1.0",
+    "karma-jasmine": "1.1.0",
+    "karma-junit-reporter": "1.2.0",
+    "karma-phantomjs-launcher": "1.0.4",
+    "karma-requirejs": "1.1.0",
+    "karma-script-launcher": "1.0.0",
+    "sinon": "2.1.0",
+    "sinonjs-hydrajs-testing-helper": "*",
+    "swig": "1.4.2",
+    "uglify-js": "3.16.0"
+  },
+  "github": "https://github.com/HydraJS/HydraJS",
+  "jspm": {
+    "devDependencies": {
+      "babel": "npm:babel-core@^5.8.24",
+      "babel-runtime": "npm:babel-runtime@^5.8.24",
+      "core-js": "npm:core-js@^1.1.4"
+    }
+  }
+}

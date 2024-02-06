@@ -1,0 +1,62 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <title>Jasmine Spec Runner</title>
+
+
+    <link rel="shortcut icon" type="image/png" href="lib/jasmine-2.5.2/jasmine_favicon.png">
+    <link rel="stylesheet" href="lib/jasmine-2.5.2/jasmine.css">
+
+    <script src="lib/jasmine-2.5.2/jasmine.js"></script>
+    <script src="lib/jasmine-2.5.2/jasmine-html.js"></script>
+    <script src="lib/jasmine-2.5.2/boot.js"></script>
+
+    <!-- include source files here... -->
+    <script type="text/javascript" src="../node_modules/sinon/pkg/sinon.js"></script>
+    <script type="text/javascript" src="../versions/hydra.js"></script>
+    <script type="text/javascript" src="../node_modules/hydrajs-testing-helper/src/hydrajs-testing-helper.js"></script>
+    <script type="text/javascript" src="../node_modules/sinonjs-hydrajs-testing-helper/src/sinonjs-hydrajs-testing-helper.js"></script>
+
+    <!-- include spec files here... -->
+    <script type="text/javascript" src="Hydra.js"></script>
+
+    <script type="text/javascript">
+        (function ()
+        {
+            var jasmineEnv = jasmine.getEnv();
+            jasmineEnv.updateInterval = 1000;
+
+            var htmlReporter = new jasmine.HtmlReporter();
+
+            jasmineEnv.addReporter( htmlReporter );
+
+            jasmineEnv.specFilter = function ( spec )
+            {
+                return htmlReporter.specFilter( spec );
+            };
+
+            var currentWindowOnload = window.onload;
+
+            window.onload = function ()
+            {
+                if ( currentWindowOnload )
+                {
+                    currentWindowOnload();
+                }
+                execJasmine();
+            };
+
+            function execJasmine()
+            {
+                jasmineEnv.execute();
+            }
+
+        })();
+    </script>
+
+</head>
+
+<body>
+</body>
+</html>

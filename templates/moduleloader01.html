@@ -1,0 +1,151 @@
+{% extends "MyBase_moduleloader01.html" %}
+
+
+
+{% block title %}Les modules ES6{% endblock title %}
+
+
+{% block content %}
+
+<div class=" container alert alert-warning" role="alert">
+  <b>Le but de cette page est de tester les modules ES6.</b> <br>
+  <p></p> 
+  <p>Le code js pour importer les fonctions des modules se trouve dans le fichier 'main.js' : </p> 
+  <p><b>De base, les fonctions importées ne sont PAS disponibles dans la console.</b></p>
+  <p><b>Elles ne sont disponibles que dans ce fichier JS ici "main.js" !!</b></p>
+
+  <p><b>Pour rendre les fonctions importées disponibles dans la CONSOLE on utilise 'window.' ainsi : </b></p>
+  <p><b>window.c_subOk = subOk;</b></p>
+  <p><b>Maintenant la fonction 'c_subOk' est disponible dans la console.</b></p>
+  <p></p> 
+      <p>&lt;script type=&quot;module&quot; src=&quot;static/<b>main.js</b>&quot;&gt;&lt;/script&gt;</p>
+  <p></p>
+
+  <p>Voici le code js qui se trouve dans le fichier 'main.js' : </p> 
+
+  <p>
+
+  import { core } from &#039;./module_core.js&#039;;
+import { sumOk, subOk } from &#039;./calc.js&#039;;
+import { create, createReportList } from &#039;./modules/canvas.js&#039;;
+import { name, draw, reportArea, reportPerimeter } from &#039;./modules/square.js&#039;;
+import randomSquare from &#039;./modules/square.js&#039;;
+
+
+// Pour rendre accessible une fonction dans la console on précède son nom avec &#039;window.&#039;
+window.c_sumOk = sumOk;
+window.c_subOk = subOk;
+// window.createReportList = createReportList ;
+window.c_createReportList = createReportList ;
+
+
+// let myCanvas = create(&#039;myCanvas&#039;, document.body, 480, 320);
+let myCanvas = create(&#039;myCanvas&#039;, document.getElementById(&quot;canvasDiv&quot;), 480, 320);
+
+console.log(&quot;sumOk(10,10) : &quot;,c_sumOk(10,10))
+
+let reportList = createReportList(myCanvas.id);
+
+let square1 = draw(myCanvas.ctx, 50, 50, 100, &#039;blue&#039;);
+reportArea(square1.length, reportList);
+reportPerimeter(square1.length, reportList);
+
+// Use the default
+let square2 = randomSquare(myCanvas.ctx);
+
+
+console.log(&quot;core.version : &quot;,core.version)
+
+</p>
+  
+</div>
+
+<div id="listId" class="container" >
+  
+</div>
+
+<div id="canvasDiv" class="border border-primary container" >
+ 
+  
+</div>
+
+
+{% endblock content %}
+
+{% block scripts %}
+{{ super() }}
+
+<script type="module" src="static/main.js">
+
+</script>
+
+
+<script type="text/javascript">
+  // console.log("sum(1,1) :  ",sub(1,1))  
+
+  // var rr = sum(5,5);
+
+function testIt(){
+  // let myCanvas = create('myCanvas', document.body, 480, 320);
+  let myCanvas = create('myCanvas', document.getElementById("canvasDiv") , 480, 320);
+
+  let reportList = createReportList(myCanvas.id);
+
+  let square1 = draw(myCanvas.ctx, 50, 50, 100, 'blue');
+  reportArea(square1.length, reportList);
+  reportPerimeter(square1.length, reportList);
+
+  // Use the default
+  let square2 = randomSquare(myCanvas.ctx);
+
+  console.log("Dans main.js ")  
+}
+  
+function startIt(){
+    Hydra.module.register("single", function (Bus, Module, ErrorHandler, Api) {
+    console.log("Bus : ",Bus)
+    console.log("Module : ",Module)
+    console.log("ErrorHandler : ",ErrorHandler)
+    console.log("Api : ", Api)
+      return {
+          sModule: 'BaseSample',
+          init: function () {
+              alert("Single Module started");
+              this.addData();
+          },
+          addData: function(){
+            // 
+            var linkDestination = document.getElementById("hydraVersion") 
+            linkDestination.innerHTML = Hydra.version;
+
+            var busDestination = document.getElementById("bus") 
+            busDestination.innerHTML ="Get access to Hydra.bus, the action manager to publish or subscribe to events";
+
+            var moduleDestination = document.getElementById("module") 
+            moduleDestination.innerHTML ="Get access to Hydra.module, the module manager to register, extend, decorate, start and stop modules.";
+
+            var errorHandlerDestination = document.getElementById("errorHandler") 
+            errorHandlerDestination.innerHTML ="Get access to the Hydra.errorHandler, it's recommended to use it instead of using console.log : improvements";
+
+            var apiDestination = document.getElementById("api") 
+            apiDestination.innerHTML ="Get access to the rest of the Hydra api. You can use it to access to the current extensions, i.e. jQuery, or to your own extensions.";
+
+          }
+      };
+    });
+
+    // Créer des variables
+    Hydra.module.setVars( { test:'test', ban : 'ban' } );
+
+    // Lire les variables crées
+    var oVars = Hydra.module.getVars();
+    console.log("Les variables crées sont : ",oVars)
+
+    Hydra.module.start("single");
+}
+
+console.log("Dans moduleloader01.html ")  
+
+</script>
+
+{% endblock scripts %}

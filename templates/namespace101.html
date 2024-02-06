@@ -1,0 +1,77 @@
+{% extends "MyBase_hydra.html" %}
+
+
+
+{% block title %}Namespace 101{% endblock title %}
+
+
+{% block content %}
+
+
+
+<div class=" container alert alert-warning" role="alert">
+  <b>Définir, puis trouver un bon framework.</b> <br>
+  <p></p>
+  <p></p>
+
+  <p></p>
+
+  <p>Les namespace livre : "2016_Mastering JavaScript Object-Oriented Programming" page 202</p>
+
+  
+<p></p>
+<hr>
+<p>var myNameSpace = {};</p>
+
+<p>(function(nameSpace) {</p>
+<p>nameSpace.version = &quot;1.0&quot;,</p>
+<p>nameSpace.name = &quot;My Application&quot;,</p>
+<p>nameSpace.config = {/*...*/},</p>
+<p>nameSpace.init = function() {/*...*/}</p>
+<p>})(myNameSpace);</p>
+
+
+<p>console.log("myNameSpace.version : ",myNameSpace.version)// -><b> myNameSpace.version :  1.0 </b></p>
+
+  
+  
+  
+</div>
+
+<div class="container" >
+  
+
+  
+</div>
+
+{% endblock content %}
+
+{% block scripts %}
+{{ super() }}
+
+
+
+<script type="text/javascript">
+var myNameSpace = {};
+
+
+(function(nameSpace) {
+  nameSpace.version = "1.0",
+  nameSpace.name = "My Application",
+  nameSpace.config = {/*...*/},
+  nameSpace.init = function() {console.log("Exécution de la fonction init()") }
+  })(myNameSpace);
+
+
+console.log("myNameSpace.version : ",myNameSpace.version)// -> myNameSpace.version :  1.0
+myNameSpace.init() // -> Exécution de la fonction init()
+  
+</script>
+
+  
+  
+
+
+
+{% endblock scripts %}
+

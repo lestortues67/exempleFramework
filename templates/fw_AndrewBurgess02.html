@@ -1,0 +1,96 @@
+{% extends "MyBase.html" %}
+
+
+
+{% block title %}Notre FW test 01{% endblock title %}
+
+
+{% block content %}
+
+
+  <div class=" container alert alert-warning" role="alert">
+    <p>Andrew Burgess présente le concept de Nicolas Zakas.</p>
+  
+  <p>Source : https://code.tutsplus.com/writing-modular-javascript--net-14746t</p>
+
+
+<p>Bien que le fondateur N. Zakas recommande d'utiliser les design pattern module, mediator et facade <b> ces mots sont introuvables dans le texte</b> d'Andrew. </p>
+</div>
+
+<div id="id01" class="container">
+  
+<img src="static/organisation.jpg">
+
+</div>
+
+{% endblock content %}
+
+{% block scripts %}
+{{ super() }}
+
+
+// Dans son papier, Andrew, n'utilise pas les modules ES6 mais des fichiers *.js
+<script src="static/module_core.js"></script> 
+
+<script src="static/module_SandBox.js"></script> 
+
+<script src="static/module_module.js"></script> 
+
+<script type="text/javascript">
+
+  // Rendre une CLASS dispo dans la console : 
+  // window.sandbox = new ClassSandBox();
+
+  // makeBtnVert("p_inst_SandBox")
+
+  var mediator = new ClassMediator();
+
+  // With this infrastructure, if a colleague wants to participate in the communication, he can
+  // register as shown here:
+  var johnSmith = new ClassAbonne("John");
+  var marioRossi = new ClassAbonne("Mario");
+  var lory = new ClassAbonne("Lory");
+  var sandboxer = new ClassAbonne("sandboxer");
+  
+
+
+  mediator.register(johnSmith);
+  mediator.register(marioRossi);
+  mediator.register(lory);
+  mediator.register(sandboxer);
+  
+  // It can communicate with a specific colleague in the following way:
+  johnSmith.send("Hello Mario ! How are you ? ", marioRossi);
+  lory.send("Hello Mario ! I love you !!", marioRossi);
+  marioRossi.send("Hello Lory ! I love you TOO !!", lory);
+  // It can communicate with all colleagues using the following statement:
+  johnSmith.send("Hello!");
+
+  marioRossi.send("Hello John ! it's ok ? ", johnSmith);
+
+  sandboxer.send({data:100,name:'dor'}, johnSmith);
+  
+
+  
+  // Créer Application Core avec DP_mediator
+
+  // Créer SandBox avec DP_facade ( &  DP_mediator ? )
+
+  // Créer des modules ( avec DP_module ? )
+
+
+
+</script>
+
+<script type="text/javascript">
+
+  
+</script>
+
+  
+  
+
+
+
+{% endblock scripts %}
+

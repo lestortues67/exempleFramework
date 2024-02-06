@@ -1,0 +1,54 @@
+{% extends "MyBase_tuto03.html" %}
+
+
+
+{% block title %}Hydra ES6 tuto_03{% endblock title %}
+
+
+{% block content %}
+
+
+
+<div class=" container alert alert-warning" role="alert">
+  <b>Un essai du framework 'hydra JS'.</b> <br>
+  Le but de cette page est d'utiliser la version avec tous les fichiers dans HydraJS/src/libs. 
+      <p></p>
+  <p></p>
+
+  
+  
+  
+</div>
+
+<div id="listenerModule" class="container" >
+  
+</div>
+
+<div id="hydraData" class="container" >
+  <p>The version used of hydra is <span id="hydraVersion" ></span> </p>
+
+  <p><b>'Bus'</b> is used to <span id="bus" ></span> </p>
+  <p><b>'Module'</b> is used to <span id="module" ></span> </p>
+  <p><b>'ErrorHandler'</b> is used to <span id="errorHandler" ></span> </p>
+  <p><b>'Api'</b> is used to <span id="api" ></span> </p>
+  
+</div>
+
+
+{% endblock content %}
+
+{% block scripts %}
+{{ super() }}
+
+<script type="module" src="static/lib_hydra_js/hydra.js"></script>
+
+
+
+<!-- <script type="module" src="static/hydra.js"></script> // error 'this' is undefined -->
+
+
+
+<script type="text/javascript">
+</script>
+
+{% endblock scripts %}

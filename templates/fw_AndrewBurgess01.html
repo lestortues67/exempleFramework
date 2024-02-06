@@ -1,0 +1,180 @@
+{% extends "MyBase.html" %}
+
+
+
+{% block title %}Notre FW test 01{% endblock title %}
+
+
+{% block content %}
+
+
+  <div class=" container alert alert-warning" role="alert">
+    <p>Andrew Burgess présente le concept de Nicolas Zakas.</p>
+  
+  <p>Source : https://code.tutsplus.com/writing-modular-javascript--net-14746t</p>
+
+
+<p>Bien que le fondateur N. Zakas recommande d'utiliser les design pattern module, mediator et facade <b> ces mots sont introuvables dans le texte</b> d'Andrew. </p>
+</div>
+
+<div class="container">
+  
+<img src="static/organisation.jpg">
+
+</div>
+
+{% endblock content %}
+
+{% block scripts %}
+{{ super() }}
+<!-- <script type="module" src="static/fwTest01.js"></script> -->
+
+
+<!-- <script src="js/jquery.js"></script> 
+
+<script src="static/applicationCore.js"></script> 
+
+<script src="static/sandbox.js"></script> 
+
+<script src="static/modules.js"></script>  -->
+
+
+
+
+<script type="module">
+  import { btnVert, makeBtnVert  } from "./static/mod_button_vert.js";
+  import { ClassMediator, ClassSandBox, ClassAbonne} from "./static/mod_SandBox.js";
+
+
+  var myNameSpace = {};
+
+  (function(nameSpace) {
+    nameSpace.version = "1.0",
+    nameSpace.name = "My Application",
+    nameSpace.config = {/*...*/},
+    nameSpace.init = function() {console.log("Exécution de la fonction init()") }
+    })(myNameSpace);
+
+  console.log("myNameSpace.version : ",myNameSpace.version)// -> myNameSpace.version :  1.0
+  myNameSpace.init() // -> Exécution de la fonction init()
+  console.log(" ")
+
+    var ui = {};
+
+  // Je crée un namespace 'ui' pour les modules de la famille 'User Interface'
+  (function(nameSpace) {
+    nameSpace.version = "1.0",
+    nameSpace.init = function() {console.log("Exécution de la fonction init()") },
+    nameSpace.end = function() {console.log("Exécution de la fonction end()") }
+    })(ui);
+
+  ui.end()
+  console.log(" ")
+  
+
+
+  // Rendre une CLASS dispo dans la console : 
+  // window.sandbox = new ClassSandBox();
+
+  makeBtnVert("p_inst_SandBox")
+
+  var mediator = new ClassMediator();
+
+  // With this infrastructure, if a colleague wants to participate in the communication, he can
+  // register as shown here:
+  var johnSmith = new ClassAbonne("John");
+  var marioRossi = new ClassAbonne("Mario");
+  var lory = new ClassAbonne("Lory");
+  var sandbox = new ClassAbonne("sandbox");
+  var appCore = new ClassAbonne("appCore");
+
+
+
+
+
+  mediator.register(johnSmith);
+  mediator.register(marioRossi);
+  mediator.register(lory);
+  mediator.register(sandbox);
+  mediator.register(appCore);
+  // It can communicate with a specific colleague in the following way:
+  johnSmith.send("Hello Mario ! How are you ? ", marioRossi);
+  lory.send("Hello Mario ! I love you !!", marioRossi);
+  marioRossi.send("Hello Lory ! I love you TOO !!", lory);
+  // It can communicate with all colleagues using the following statement:
+  johnSmith.send("Hello!");
+
+  marioRossi.send("Hello John ! it's ok ? ", johnSmith);
+
+  sandbox.send({data:100,name:'dor'}, appCore);
+  appCore.send("Hello sandbox ! ", sandbox);
+
+  
+  // Créer Application Core avec DP_mediator
+
+  // Créer SandBox avec DP_facade ( &  DP_mediator ? )
+
+  // Créer des modules ( avec DP_module ? )
+
+
+function ClassAppCoreTest() {
+    this.mediator = null;
+    
+    if ( typeof ClassAppCoreTest.initialized == "undefined" ) {
+      ClassAppCoreTest.prototype.create_module = function(p_module) {
+          // Rechercher p_module
+          if (p_module == "search-box"){
+            return { 
+              init : function () {console.log("Dans la fonction init()")}, 
+              destroy : function () {console.log("Dans la fonction destroy()")} 
+            }; 
+          }
+        };
+        ClassAppCoreTest.prototype.xxx = function(p_message, p_sender) {
+            // process the message
+            console.log(" areçu un message de")
+        }
+        ClassAppCoreTest.initialized = true;
+    }// if ( typeof ClassAppCoreTest.initialized == "undefined" ) 
+}// function ClassAppCoreTest()
+
+var appCore = new ClassAppCoreTest()
+var f = appCore.create_module("search-box")
+
+console.log("De quel type est le retour de 'appCore.create_module' : ",typeof(f))
+
+console.log("voici f: ",f)
+console.log(" ")
+f.init()
+f.destroy()
+// console.log("999 f.init() : ",f.init())
+// f.init
+
+
+var sandboxTest = { 
+  create : 
+    function (core, module_selector) { 
+      console.log("Dans sandboxTest ")
+      // var CONTAINER = core.dom.query('#' + module_selector); 
+      return {}; 
+    }     
+};
+
+
+sandboxTest.create()
+
+
+</script>
+
+<script type="text/javascript">
+
+  
+</script>
+
+  
+  
+
+
+
+{% endblock scripts %}
+

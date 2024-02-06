@@ -1,0 +1,132 @@
+{% extends "MyBase_hydra.html" %}
+
+
+
+{% block title %}Framework tests{% endblock title %}
+
+
+{% block content %}
+
+
+
+
+<div id="btns" class="container" >
+	<button class="btn btn-primary" id="btn_start_add">Jouer Addition</button>    
+	<button class="btn btn-primary" id="btn_start_sub" >Jouer Soustraction</button>    
+	<button class="btn btn-primary" id="btn_start_mult">Jouer Multiplication</button>    
+	<label for="niveau-select">Niveau des calculs :</label>
+
+<span id="niveau">
+	<select id="select_niveau" name="select_niveau">
+  		<option value="1">1</option>
+  		<option value="2">2</option>
+		<option value="3">3</option>
+		<option value="4">4</option>
+	</select>
+</span>
+
+<span id="connexion">
+	<button class="btn btn-success" id="btn_connect_me">Me connecter</button>    	
+</span>
+
+<span id="configuration">
+	<button class="btn btn-warning" id="btn_configuration">Configurer</button>    	
+</span>
+
+
+
+
+	
+</div>
+
+<div id="jeu" class="container" >
+	<div id="lignes" class="container" >
+
+	</div>
+</div>
+
+
+<div id="chrono" class="container" >
+	<button class="btn btn-danger" id="btn_stop_chrono" >Stop Chrono</button>    
+	<span class="container fs-1" id="text_chrono">00:00:00</span>
+</div>
+
+
+{% endblock content %}
+
+{% block scripts %}
+{{ super() }}
+
+	<script src="http://ajax.googleapis.com/ajax/libs/dojo/1.7.2/dojo/dojo.js"></script>
+	<script src="static/jsjw/jquery.js"></script>
+	<script src="static/jsjw/core-jquery.js"></script>
+	<!-- <script src="static/jsjw/core-dojo.js"></script> -->
+	<script src="static/jsjw/sandbox.js"></script>
+	<script src="static/jsjw/modulesCalculMental01.js"></script>
+
+{% endblock scripts %}
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html lang="en">
+	<head>
+		<meta charset="UTF-8"/>
+		<title>
+			Online Store
+		</title>
+		<link rel="stylesheet" href="static/default.css" type="text/css">
+	</head>
+	<body>
+		<div id="main">
+			
+			<div id="search-box">
+				<input id="search_input" type="text" name='q'> <button id="search_button">Search</button> <button id="quit_search">Reset</button>
+			</div>
+			
+			<div id="filters-bar">
+				<ul>
+					<li>
+						<a href="#red">Red</a>
+					</li>
+					<li>
+						<a href="#blue">Blue</a>
+					</li>
+					<li>
+						<a href="#mobile">Mobile</a>
+					</li>
+					<li>
+						<a href="#accessory">Accessory</a>
+					</li>
+				</ul>
+			</div>
+			
+			<div id="product-panel">
+				<ul>
+					<li id="1" data-8088-keyword="red"><img src="static/img_jw/1.jpg"/><p>First Item</p></li>
+					<li id="2" data-8088-keyword="blue"><img src="static/img_jw/2.jpg"/><p>Second Item</p></li>
+					<li id="3" data-8088-keyword="mobile"><img src="static/img_jw/3.jpg"/><p>Third Item</p></li>
+					<li id="4" data-8088-keyword="accessory"><img src="static/img_jw/4.jpg"/><p>Fourth Item</p></li>
+					<li id="5" data-8088-keyword="red mobile"><img src="static/img_jw/5.jpg"/><p>Fifth Item</p></li>
+					<li id="6" data-8088-keyword="blue mobile"><img src="static/img_jw/6.jpg"/><p>Sixth Item</p></li>
+					<li id="7" data-8088-keyword="red accessory"><img src="static/img_jw/7.jpg"/><p>Seventh Item</p></li>
+					<li id="8" data-8088-keyword="blue accessory"><img src="static/img_jw/8.jpg"/><p>Eighth Item</p></li>
+					<li id="9" data-8088-keyword="red blue"><img src="static/img_jw/9.jpg"/><p>Ninth Item</p></li>
+					<li id="10" data-8088-keyword="mobile accessory"><img src="static/img_jw/10.jpg"/><p>Tenth Item</p></li>
+				</ul>
+			</div>
+			
+			<div id="shopping-cart">
+				<ul>
+				</ul>
+			</div>
+
+			<div id="total-zone">
+				<ul>
+					<li id="nbrArticles">Nombre d'articles : </li>
+					<li id="totalAPayer">A payer : </li>
+				</ul>
+			</div>
+			
+		</div>
+	</body>
+</html>

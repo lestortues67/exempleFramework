@@ -1,0 +1,214 @@
+{% extends "MyBase_hydra.html" %}
+
+
+
+{% block title %}Hydra tuto_02{% endblock title %}
+
+
+{% block content %}
+
+
+
+<div class=" container alert alert-warning" role="alert">
+  <b>Un essai du framework 'hydra JS'.</b> <br>
+  Le but de cette page est de présenter HydraJS et la création d'un module avec le principe de 'Dependency injection'. 
+      <p></p>
+  <p>'Dependency injection', one form of Inversion of Control, is a pattern that aims to separate the concerns of constructing objects and using them.'</p>
+
+  
+  
+  
+</div>
+
+<div id="listenerModule" class="container" >
+  
+</div>
+
+<div id="hydraData" class="container" >
+  <p>The version used of hydra is <span id="hydraVersion" ></span> </p>
+
+  <p><b>'Bus'</b> is used to <span id="bus" ></span> </p>
+  <p><b>'Module'</b> is used to <span id="module" ></span> </p>
+  <p><b>'ErrorHandler'</b> is used to <span id="errorHandler" ></span> </p>
+  <p><b>'Api'</b> is used to <span id="api" ></span> </p>
+  
+</div>
+
+
+
+
+
+
+{% endblock content %}
+
+{% block scripts %}
+{{ super() }}
+
+
+
+<script type="text/javascript">
+
+// <script type="text/javascript" src="Hydra.js"> </88script>
+// <script type="text/javascript" src="BasicErrorHandler.js"></88script>
+
+
+// Create a module using dependency injection
+
+
+Hydra.module.register( 'dependency_injection_module', ['$api', '$bus'], function ( Bus, Module, ErrorHandler, Api ){
+  console.log("Bus : ",Bus)
+  console.log("Module : ",Module)
+  console.log("ErrorHandler : ",ErrorHandler)
+  console.log("Api : ", Api)
+
+    return {
+      sModule: 'BaseSample',
+      init: function (  ) {
+        alert("dependency_injection_module started");
+      }
+    };
+});
+
+
+Hydra.module.register("sampleModuleListener", function (bus) {
+    return {
+        sModule: 'BaseSample',
+        events:{
+            'channel': {
+                'link:clicked':function () {
+                    alert('Link clicked in sampleModuleListener');
+                }
+            }
+        },
+        init: function () {
+            alert("Listener Module started");
+            this.createLinkAndAddEvent();
+        },
+        createLinkAndAddEvent: function()
+        {
+            var oLink = document.createElement("a");
+            oLink.href = '#';
+            oLink.innerHTML = 'Start Notifier Module';
+
+            oLink.addEventListener("click", (event) => {Hydra.module.start('sampleModuleNotifier');});
+            // body.appendChild(oLink);
+            var linkDestination = document.getElementById("listenerModule") 
+            linkDestination.appendChild(oLink);
+        }
+    };
+});
+
+Hydra.module.register("sampleModuleNotifier", function (bus) {
+    return {
+        sModule: 'BaseSample',
+        init: function () {
+            alert("Notifier Module started");
+            bus.publish('channel', 'link:clicked', null);
+        }
+    };
+});
+
+Hydra.module.start("sampleModuleListener");
+
+
+
+
+
+
+
+
+
+
+
+Hydra.module.register("single", function (Bus, Module, ErrorHandler, Api) {
+  console.log("Bus : ",Bus)
+  console.log("Module : ",Module)
+  console.log("ErrorHandler : ",ErrorHandler)
+  console.log("Api : ", Api)
+    return {
+        sModule: 'BaseSample',
+        init: function () {
+            alert("Single Module started");
+            this.addData();
+        },
+        addData: function(){
+          // 
+          var linkDestination = document.getElementById("hydraVersion") 
+          linkDestination.innerHTML = Hydra.version;
+
+          var busDestination = document.getElementById("bus") 
+          busDestination.innerHTML ="Get access to Hydra.bus, the action manager to publish or subscribe to events";
+
+          var moduleDestination = document.getElementById("module") 
+          moduleDestination.innerHTML ="Get access to Hydra.module, the module manager to register, extend, decorate, start and stop modules.";
+
+          var errorHandlerDestination = document.getElementById("errorHandler") 
+          errorHandlerDestination.innerHTML ="Get access to the Hydra.errorHandler, it's recommended to use it instead of using console.log : improvements";
+
+          var apiDestination = document.getElementById("api") 
+          apiDestination.innerHTML ="Get access to the rest of the Hydra api. You can use it to access to the current extensions, i.e. jQuery, or to your own extensions.";
+
+        }
+    };
+});
+
+Hydra.module.register("sampleModuleWithListener", function (bus) {
+    return {
+        sModule: 'BaseSample',
+        init: function () {
+            alert("sampleModuleWithListener Module started");
+            this.createLinkAndAddEvent();
+            this.createBtnAndAddEvent();
+        },
+        events:{
+            'channelA': {
+                'link:click':function () {
+                    alert('Link in channelA clicked');
+                }
+            },
+            'channelB': {
+                'btn:click':function () {
+                    alert('button in channelB clicked');
+                },
+            }
+        },
+        createLinkAndAddEvent: function()
+        {
+            var oLink = document.createElement("a");
+            oLink.href = '#';
+            oLink.innerHTML = 'Notify';
+            oLink.addEventListener("click", (event) => {bus.publish('channelA', 'link:click', null);});
+            // Bus : Get access to Hydra.bus, the action manager to publish or subscribe to events
+            document.body.appendChild(oLink);
+        },
+        createBtnAndAddEvent: function()
+        {
+            var oBtn = document.createElement("button");
+            oBtn.href = '#';
+            oBtn.classList.add("btn")
+            oBtn.classList.add("btn-primary")
+            oBtn.innerHTML = 'Click me';
+            oBtn.addEventListener("click", (event) => {bus.publish('channelB', 'btn:click', null);});
+            // Bus : Get access to Hydra.bus, the action manager to publish or subscribe to events
+            document.body.appendChild(oBtn);
+        }
+    };
+});
+
+// Créer des variables
+Hydra.module.setVars( { test:'test', ban : 'ban' } );
+
+// Lire les variables crées
+var oVars = Hydra.module.getVars();
+console.log("Les variables crées sont : ",oVars)
+
+
+Hydra.module.start("dependency_injection_module");
+
+Hydra.module.start("single");
+Hydra.module.start("sampleModuleWithListener");
+
+</script>
+
+{% endblock scripts %}
+

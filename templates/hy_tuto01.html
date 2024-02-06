@@ -1,0 +1,137 @@
+{% extends "MyBase_hydra.html" %}
+
+
+
+{% block title %}Hydra tuto_01{% endblock title %}
+
+
+{% block content %}
+
+
+
+<div class=" container alert alert-warning" role="alert">
+  <b>Un essai du framework 'hydra JS'.</b> <br>
+
+  <ul>
+    <li>Bus : Get access to Hydra.bus, the action manager to publish or subscribe to events</li>
+    <li>Module : Get access to Hydra.module, the module manager to register, extend, decorate, start and stop modules.</li>
+    <li>ErrorHandler : Get access to the Hydra.errorHandler, it's recommended to use it instead of using console.log because of the possible improvements see Hydra.js extensions or Hermes.js</li>
+    <li>Api : Get access to the rest of the Hydra api. You can use it to access to the current extensions, i.e. jQuery, or to your own extensions.</li>
+  </ul>
+
+
+
+
+
+  <p>Les premières lignes de code JS.</p>
+  <p></p>
+
+  
+  
+  
+</div>
+
+<div class="container" >
+  
+
+  
+</div>
+
+{% endblock content %}
+
+{% block scripts %}
+{{ super() }}
+
+
+
+<script type="text/javascript">
+
+// <script type="text/javascript" src="Hydra.js"> </88script>
+// <script type="text/javascript" src="BasicErrorHandler.js"></88script>
+
+
+
+Hydra.module.register("single", function () {
+    return {
+        sModule: 'BaseSample',
+        init: function () {
+            alert("Single Module started");
+        }
+    };
+});
+
+Hydra.module.register("sampleModuleWithListener", function (bus) {
+    return {
+        sModule: 'BaseSample',
+        init: function () {
+            alert("sampleModuleWithListener Module started");
+            this.createLinkAndAddEvent();
+            this.createBtnAndAddEvent();
+        },
+        events:{
+            'channel': {
+                'link:click':function () {
+                    alert('Link clicked');
+                },
+                'btn:click':function () {
+                    alert('button clicked');
+                },
+            }
+        },
+        createLinkAndAddEvent: function()
+        {
+            var oLink = document.createElement("a");
+            oLink.href = '#';
+            oLink.innerHTML = 'Notify';
+            oLink.addEventListener("click", (event) => {bus.publish('channel', 'link:click', null);});
+            // Bus : Get access to Hydra.bus, the action manager to publish or subscribe to events
+            document.body.appendChild(oLink);
+        },
+        createBtnAndAddEvent: function()
+        {
+            var oBtn = document.createElement("button");
+            oBtn.href = '#';
+            oBtn.classList.add("btn")
+            oBtn.classList.add("btn-primary")
+            oBtn.innerHTML = 'Click me';
+            oBtn.addEventListener("click", (event) => {bus.publish('channel', 'btn:click', null);});
+            // Bus : Get access to Hydra.bus, the action manager to publish or subscribe to events
+            document.body.appendChild(oBtn);
+        }
+    };
+});
+
+// Créer des variables
+Hydra.module.setVars( { test:'test', ban : 'ban' } );
+
+// Lire les variables crées
+var oVars = Hydra.module.getVars();
+console.log("Les variables crées sont : ",oVars)
+
+Hydra.module.start("single");
+Hydra.module.start("sampleModuleWithListener");
+
+
+function eventManager(p_event){
+  if (p_event.target == "HTMLDocument"){
+    console.log("started")
+  }
+  console.log("started : ",p_event.target)
+}
+
+
+window.addEventListener("load", eventManager, false);
+
+
+
+
+  
+</script>
+
+  
+  
+
+
+
+{% endblock scripts %}
+

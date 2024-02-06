@@ -1,0 +1,211 @@
+{% extends "MyBase_hydra.html" %}
+
+{% block title %}Mise au point Jeu calculc 01{% endblock title %}
+
+{% block content %}
+
+<div class=" container alert alert-warning" role="alert">
+  <b>Créer des paires qui respectent ces conditions : </b> <br>
+  <p>a > b</p>
+    <p>a-b > 10</p>
+    <p>a-b < 20</p>
+    <p>a not in liste_a</p>
+    <p>b not in liste_b</p>
+    
+  <p></p>
+
+  <p>Voici les 2 listes de paires : </p>
+
+  <p id="result_a1"></p>
+  <p id="result_b1"></p>
+  
+</div>
+
+<div class=" container alert alert-warning" role="alert">
+  <b>Créer des paires qui respectent ces conditions : </b> <br>
+  <p>Le grand 'a' < 21</p>
+  <p>Le petit 'b' > -1</p>
+  <p>a >= b</p>
+  <p>La diff a-b < 7 </p>
+  <p>a not in liste_a</p>
+  <p>b not in liste_b</p>
+    
+  <p></p>
+
+  <p>Voici les 2 listes de paires : </p>
+
+  <p id="result_a2"></p>
+  <p id="result_b2"></p>
+  
+</div>
+<div class=" container alert alert-danger" role="alert">
+  <p id="securityMessage" ></p>
+    <p></p>
+  
+</div>
+
+{% endblock content %}
+
+{% block scripts %}
+{{ super() }}
+<script type="text/javascript" src="static/classeDeConditions.js" ></script>
+<script type="text/javascript" src="static/classeDeArray.js" ></script>
+
+<script type="text/javascript">
+
+  // Ceci est un jeu de calcul mental où plusieurs opérations de 2 nombres (a et b) sont présentées. 
+  // En général a > b. 
+  // La difficulté des calculs est déterminée par le choix d'un niveau de 0 à 5 dans 'niveau'.  
+
+  // L'objet 'niveau' contient les clés 'plagemin' (l'étendue du nbr 'a' de 5 à 310) et 'diff' 
+  // la différence entre 'a' et 'b' qui peut aller jusqu'à 50.
+  
+  // 'plagemin' : la plus petite plage autorisée pour tirer au sort le nombre 'a'
+  // 'diff' : la différence ( a - b ). Une petite différence est un calcul facile à faire. 
+  // Ici avec une différence = 2 un exemple est 8 - 6 ou 10 + 12
+
+
+// 0:{plagemin:0,diffmin:1,diffmax:10},
+
+
+
+  var niveau = {
+    0:{plagemin:0,diff:10},
+    1:{plagemin:2,diff:15},
+    2:{plagemin:3,diff:20},
+    3:{plagemin:4,diff:30},
+    4:{plagemin:5,diff:40},
+    5:{plagemin:6,diff:50}
+  }
+
+  var plages = {
+    0:{min:5,max:20},1:{min:20,max:35},2:{min:35,max:45},
+    3:{min:45,max:60},4:{min:60,max:75},5:{min:75,max:90},
+    6:{min:90,max:105},7:{min:105,max:120},8:{min:120,max:135},
+    9:{min:135,max:150},10:{min:150,max:165},11:{min:165,max:180},
+    12:{min:180,max:195},13:{min:195,max:205},14:{min:205,max:220},
+    15:{min:220,max:235},16:{min:235,max:250},17:{min:250,max:265},
+    18:{min:265,max:280},19:{min:280,max:295},20:{min:295,max:310}
+  }
+
+
+var exo46 = {};
+
+(function(p_nom) {
+  p_nom.version = "1.0",
+  p_nom.name = "My Application",
+  p_nom.config = {/*...*/},
+  p_nom.afficher = function(p_text) {
+    console.log(p_text); 
+  }
+})(exo46);
+
+exo46.afficher('claire')
+
+
+  var nbrPaires = 10; // Nombres de calculs souhaités
+
+  var numberReference = new  class_conditions ({type:'number',data:100}) 
+
+  var arrayManager = new class_array_crud()
+  arrayManager.createListe('liste_a')
+  arrayManager.createListe('liste_b')
+
+// Classe générateur de nbr aléatoires selon p_min, p_max
+  function class_generate_number(){
+    if ( typeof class_generate_number.initialized == "undefined" ) {
+      class_generate_number.prototype.get_nbr = function(p_min, p_max) {
+        // Retourne un nbr entre les limites fournies
+        return Math.floor(Math.random() * (p_max - p_min + 1)) + p_min;
+      }
+    }
+    class_generate_number.initialized = true;
+  }
+
+  var generate_number = new class_generate_number()
+
+  // Exemple si niveau = 2
+  // Tirage au sort de la plage entre 3 et 20
+  var tirageSort_a = generate_number.get_nbr(3,20); // 16 => 16:{min:235,max:250}
+
+  // Générer des paires avec caractéristiques : 
+  // (a>b); (a-b > 10); (a-b < 20); 'a' est absent de 'liste_a'; idem pour 'b'
+
+  var valid = true;
+  var securityCptMax = 150; // nbr maxi de tentatives pour trouver les solutions
+  var securityCpt = 0; // 20 tentatives maxi sont autorisées
+  var cpt = 0; 
+
+ 
+  var a_min, a_max, b_min, b_max, ab_diff_min, ab_diff_max 
+  a_min = 25;
+  a_max = 55;
+  b_min = 15;
+  b_max = 32;
+  ab_diff_min = 10;
+  ab_diff_max = 20;
+
+  while ( (securityCpt < securityCptMax) && cpt < nbrPaires){
+    securityCpt = securityCpt + 1;
+    // Générer les nbr 'a' & 'b'
+    var a = generate_number.get_nbr(a_min, a_max);
+    var b =  generate_number.get_nbr(b_min, b_max);
+
+    // Créer les références des conditions : 
+    var ref_a = new  class_conditions ({type:'number',data:a}) 
+    var ref_a_moins_b = new  class_conditions ({type:'number',data:a-b}) 
+
+    var ref_liste_a = new  class_conditions ({type:'array',data:arrayManager.getListe('liste_a')}) 
+    var ref_liste_b = new  class_conditions ({type:'array',data:arrayManager.getListe('liste_b')}) 
+
+
+    // Créer les conditions :
+    var a_sup_b = ref_a.refNumber_est_superieur_a_p_(b)
+    var a_moins_b_sup10 = ref_a_moins_b.refNumber_est_superieur_a_p_(ab_diff_min)
+    // var a_moins_b_mini = ref_a_moins_b.refNumber_est_superieur_a_p_(ab_diff_min)
+    var a_moins_b_inf20 = ref_a_moins_b.refNumber_est_inferieur_a_p_(ab_diff_max) 
+    // var a_moins_b_maxi = ref_a_moins_b.refNumber_est_inferieur_a_p_(ab_diff_max) 
+
+    var a_not_in_liste = ref_liste_a.refArray_ne_contient_pas_p_ (a)
+    var b_not_in_liste = ref_liste_b.refArray_ne_contient_pas_p_ (b)
+
+    console.log("securityCpt / securityCptMax : ",securityCpt, securityCptMax)
+
+    // Vérifier avec TOUTES les conditions
+    if (a_sup_b && a_moins_b_sup10 && a_moins_b_inf20 && a_not_in_liste && b_not_in_liste){
+      // Si toutes cond OK : inc compteur ET stocker dans les ARRAY
+      // INC Cpt
+      cpt = cpt + 1;
+      // stocker dans les ARRAY
+      arrayManager.add('liste_a',a)
+      arrayManager.add('liste_b',b)
+    }
+
+    
+  }
+
+  if (securityCpt == securityCptMax){
+    var securityMessage = document.getElementById("securityMessage")
+    securityMessage.innerHTML = "Impossible de trouver toutes les solutions"
+    // alert("Impossible de trouver toutes les solutions")
+  }
+  
+  console.log(" ******************************************** ")  
+  
+  console.log(" arrayManager.getListe('liste_a') : ", arrayManager.getListe('liste_a')  )  
+  console.log(" arrayManager.getListe('liste_b') : ", arrayManager.getListe('liste_b')  )  
+
+  var result_a1 = document.getElementById("result_a1")
+  var result_b1 = document.getElementById("result_b1")
+  result_a1.innerHTML = "Liste a : " + arrayManager.getListe('liste_a').toString()
+  result_b1.innerHTML = "Liste b : " + arrayManager.getListe('liste_b').toString()
+
+</script>
+
+  
+  
+
+
+
+{% endblock scripts %}
+
