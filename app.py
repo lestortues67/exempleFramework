@@ -27,7 +27,7 @@ locale.setlocale(locale.LC_TIME, 'fr_FR') # sur Windows
 app = Flask(__name__)
 
 
-# test papa
+# test papa 15h00
 
 # from packages.mysql import * 
 # from packages.machine import * 
